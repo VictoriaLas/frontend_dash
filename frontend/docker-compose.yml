@@ -1,0 +1,14 @@
+# Levanta solo el frontend: docker compose up --build  ->  http://localhost:8080
+# Espera la API en el puerto 8000 de tu máquina (p. ej. con el compose de backend/).
+# Para levantar API y frontend juntos usa el docker-compose.yml de la raíz del repositorio.
+services:
+  frontend:
+    build: .
+    image: vm-dashboard-frontend
+    ports:
+      - "8080:80"
+    environment:
+      BACKEND_URL: ${BACKEND_URL:-http://host.docker.internal:8000}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # necesario en Linux
+    restart: unless-stopped
